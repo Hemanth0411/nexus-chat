@@ -76,3 +76,5 @@ docker-compose.yml
 .vscode/
 *.swp
 *~
+
+superuser.txt
