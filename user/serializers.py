@@ -1,6 +1,5 @@
 from dataclasses import fields
 from pyexpat import model
-from time import clock_settime
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
