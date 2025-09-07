@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DB_HOST=db
+      - DB_NAME=nexus_chat_db
+      - DB_USER=nexus_chat_user
+      - DB_PASS=localdevpassword
+    depends_on:
+      - db
+
+  db:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=nexus_chat_db
+      - POSTGRES_USER=nexus_chat_user
+      - POSTGRES_PASSWORD=localdevpassword
+
+volumes:
+  postgres_data:
