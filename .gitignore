@@ -67,10 +67,6 @@ ENV/
 env.bak/
 venv.bak/
 
-# Docker
-.dockerignore
-docker-compose.yml
-
 # IDEs and editors
 .idea/
 .vscode/

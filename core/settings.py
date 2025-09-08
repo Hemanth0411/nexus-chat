@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,9 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user',
     'chatbot',
+    'db_setup',
     'rest_framework',
     'rest_framework.authtoken',
-
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -79,8 +81,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql', # Use the postgresql engine
+        'NAME': os.environ.get('DB_NAME'),         # Get the db name from an env var
+        'USER': os.environ.get('DB_USER'),         # Get the db user from an env var
+        'PASSWORD': os.environ.get('DB_PASS'),     # Get the db password from an env var
+        'HOST': os.environ.get('DB_HOST'),         # Get the db host from an env var
+        'PORT': '5432',                            # Default postgres port
     }
 }
 
@@ -127,3 +133,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'user.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Nexus Chat API',
+    'DESCRIPTION': 'API for the Nexus Chat application, a RAG-powered chatbot with Google Gemini.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
